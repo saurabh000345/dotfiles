@@ -1,0 +1,215 @@
+set $mod Mod4
+
+#-#-- Setting Variables --#-#
+
+# Workspace Names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Commands
+set $gterm gnome-terminal
+set $uterm urxvt
+set $sterm st
+set $fbrowser firefox
+set $bbrowser brave
+set $shutdown shutdown now
+set $reboot reboot
+
+
+# Colors
+set $bg-color	#2f343f
+set $text-color #f3f4f5 
+
+#-#-- Configurations --#-#
+
+# System Font
+font pango:System San Francisco Display 11 
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+floating_maximum_size  1000 x 600
+
+# COLOR DEFINITIONS
+# class 		border	backgr	text	indicator	child_border
+client.focused		#FFEE84	#000000	#FFFFFF	#2E9EF4		#285577
+client.focused_inactive	#333333	#A8A8A8	#FFFFFF #484E50		#5F676A
+client.unfocused	#938A0B	#636363	B5B5B5	
+
+
+popup_during_fullscreen smart
+workspace_auto_back_and_forth yes
+
+
+#-#-- Key Bindings --#-#
+
+# Start gnome terminal
+bindsym $mod+Return exec $gterm 
+bindsym $mod+Shift+Return exec $sterm
+bindsym $mod+u+Return exec $uterm
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Launching rofi
+bindsym $mod+d exec rofi -show run  -font "System San Francisco Display 11"
+
+# Shifting Focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# To move windows to different workspaces 
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# i3lock
+bindsym $mod+shift+x exec i3lock --color "$bg-color"
+
+# Switching Workspaces
+bindsym $mod+Tab workspace back_and_forth
+
+# Taking Screenshots
+bindsym Print exec scrot '%d-%m-%Y-%s_screenshot_$wx$h.hpg' -e 'mv $f ~/Pictures/screenshots'
+bindsym Control+Print exec gnome-screenshot -i
+
+# XResources
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%	#increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%	#decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle		#mute sound
+bindsym XF86AudioPlay exec playerctl play	# media play
+bindsym XF86AudioPause exec playerctl pause	# media pause
+bindsym XF86AudioNext exec playerctl next	# media next
+bindsym XF86AudioPrev exec playerctl previous	# media previous
+bindsym $mod+shift+d exec xset dpms force off	# Turn screen off
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5
+
+
+#-#-- Execs --#-#
+#exec gnome-terminal -- ranger 
+exec urxvt -e ncmpcpp
+#exec_always feh  --randomize --bg-fill /home/saurabh000345/Pictures/wallpapers   # setting the wallpaper
+#exec /home/saurabh000345/.config/i3/wallpaper-slideshow.sh
+exec polybar top-bar
+exec polybar bottom-bar
+exec xinput set-prop 11 287 1	# Tap to Click Touchpad
+exec xinput set-prop 11 295 1	# Natural Scrolling
+exec xset b off			# Turning terminal bell off
+exec xset s off			# Turning Screen Saver off
+exec xset -dpms			# Turning Power Saver off
+exec_always alsactl init
+exec $gterm
+exec --no-startup-id $bbrowser
+exec compton -f
+
+assign [class="Gnome-terminal"] $ws1
+assign [class="Brave-browser|Firefox"] $ws2
+assign [class="Ario|vlc|URxvt"] $ws3
+assign [class="Thunar"] $ws5
+assign [class="Gimp|Ardour-5.12.0|avidemux3_qt5|obs"] $ws7
+
+#-#-- Modes --#-#
+
+# resize window 
+mode "resize" {
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Most Common Commands
+mode "common-commands"{
+	bindsym b exec $bbrowser
+	bindsym s exec spotify
+	bindsym f exec thunar
+
+	bindsym Escape mode "default"
+	bindsym Return mode "default"
+	bindsym $mod+c mode "default"  
+}
+bindsym $mod+c mode "common-commands"
+
+for_window [class="^.*"] border pixel 0 
+gaps inner 40
+gaps outer 20
+
+#bar{
+#	status_command i3blocks
+#} 
