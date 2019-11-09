@@ -1,4 +1,7 @@
-<strong>My dotfiles</strong> <br>
+# My dotfiles
+
+>My first i3 rice
+
 As always, I don't recommend just copying stuff down if you wanna learn.<br>
 Going through the docs and forums, the arch wiki, and taking inspiration or learning the syntax and usage from <br>
 such dotfiles is the only way- atleast, that's how I worked. I think it's fairly beautiful tho, isn't it. :) <br>
